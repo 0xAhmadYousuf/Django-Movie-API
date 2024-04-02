@@ -53,6 +53,12 @@
 - **Problem**: Handling user input validation and ensuring completeness of required fields.
   - **Solution**: Implemented checks to validate input data for user registration and movie addition endpoints, ensuring that essential fields are provided and not left blank.
 
+### Problems not solved till now
+- **Database Updating Functionality:** The current implementation lacks functions for updating existing data in the database, such as editing or deleting user profiles, movies, or ratings. This limitation means that any changes or corrections to user information, movie details, or ratings must be made manually by directly modifying the JSON files. Adding update functionality would enhance the API's usability and allow for more dynamic management of data without requiring manual intervention.
+
+- **Data Checking for Ratings and Movies:** There's a need to implement validation checks to ensure that duplicate ratings for the same movie by the same user are not allowed, and that movies being rated actually exist in the database. Without these checks, there's a risk of inconsistent data or errors occurring due to attempts to rate non-existent movies. Incorporating checks to verify the existence of movies and prevent duplicate ratings would improve the reliability and accuracy of the rating system within the API.
+
+
 ### File Structure
 ```
 flaskapp.
