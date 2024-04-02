@@ -1,7 +1,7 @@
-![image](https://github.com/0xAhmadYousuf/Django-Movie-API/assets/139548576/9d5b8af9-9640-4875-9535-0ae4816f978a)
+![image](https://github.com/0xAhmadYousuf/Flask-Movie-API/assets/139548576/9d5b8af9-9640-4875-9535-0ae4816f978a)
 
 
-# Django-Movie-API
+# Flask-Movie-API
 ## Movie Rating System API Documentation
 
 ### Language and Database
@@ -10,13 +10,13 @@
 - **Reason**: JSON files are used as a simple and lightweight solution for storing user, movie, and rating data. They provide easy readability and flexibility, making them suitable for this project's requirements.
 
 ### Project Repository
-- You can find the project repository at [Django-Movie-API](https://github.com/0xAhmadYousuf/Django-Movie-API). It's a Django-based implementation of a Movie API with similar functionalities.
+- You can find the project repository at [Flask-Movie-API](https://github.com/0xAhmadYousuf/Flask-Movie-API). It's a Flask-based implementation of a Movie API with similar functionalities.
 
 ### Setup Instructions
 1. Ensure you have Python installed on your system.
-2. Clone or download the project repository from [GitHub](https://github.com/0xAhmadYousuf/Django-Movie-API).
+2. Clone or download the project repository from [GitHub](https://github.com/0xAhmadYousuf/Flask-Movie-API).
 3. Install required dependencies by running `pip install -r requirements.txt`.
-4. Run the Django development server using `python manage.py runserver`.
+4. Run the Flask development server using `python manage.py runserver`.
 5. The API will be accessible at `http://localhost:5000`.
 
 ### Assumptions
@@ -91,4 +91,4 @@ For more details on each endpoint and their usage, refer to the help message pro
 
 ---
 
-Feel free to explore the [Django-Movie-API](https://github.com/0xAhmadYousuf/Django-Movie-API) repository for further insights into a Django-based implementation of a similar Movie API! If you have any questions or need assistance, don't hesitate to ask.
+Feel free to explore the [Flask-Movie-API](https://github.com/0xAhmadYousuf/Flask-Movie-API) repository for further insights into a Flask-based implementation of a similar Movie API! If you have any questions or need assistance, don't hesitate to ask.
