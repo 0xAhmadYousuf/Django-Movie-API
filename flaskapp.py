@@ -1,3 +1,9 @@
+# ==========================================================
+# CLI script developed by Unkn0wn2603 (Ahmad Yousuf) =======
+# mail to admin@ctforion.com ===============================
+# or search and send message to "Unkn0wn2603" ==============
+# ==========================================================
+
 import json
 from flask import Flask
 from flask import request
@@ -7,6 +13,10 @@ from UMODULES.hash2603 import Hash2603
 from UMODULES.mailuserverify import checkusermailconditions
 
 app = Flask(__name__)
+
+users = []
+movies = []
+ratings = []
 
 
 def error_handler(func):
@@ -21,12 +31,9 @@ def error_handler(func):
             return jsonify({'error': 'An unexpected error occurred.'}), 500
     return decorated_function
 
-users = []
-movies = []
-ratings = []
 
 @error_handler
-def load_DB():
+def load_DB()-> None:
     global users, movies, ratings
     try:
         with open('DB/users.json', 'r') as users_file:
@@ -46,7 +53,7 @@ def load_DB():
 load_DB()
 
 @error_handler
-def write_DB(UMR="U", data=None):
+def write_DB(UMR="U", data=None) -> None:
     global users, movies, ratings
     if UMR == "U" or UMR == "u":
         with open('DB/users.json', 'r') as users_file:
@@ -60,18 +67,6 @@ def write_DB(UMR="U", data=None):
             "password":data["password"],
             "email":data["email"]
         }
-        
-        # # Check if email exists or not
-        # if not checkusermailconditions(data["email"]):
-        #     return jsonify({'message': 'Your email is not valid. Please provide a valid email address.'}), 400
-        # # Check if data already exists
-        # for user in xusers:
-        #     if user["email"] == xdata["email"]:
-        #         return jsonify({'message': 'A user with this email already exists.'}), 400
-        # # Check for blank fields
-        # blank_fields = [key for key, value in xdata.items() if not value]
-        # if blank_fields:
-        #     return jsonify({'message': f'Incomplete data found. Blank fields: {", ".join(blank_fields)}'}), 400
 
         xusers.append(xdata)
         users = xusers
@@ -113,7 +108,7 @@ def write_DB(UMR="U", data=None):
             json.dump(ratings, ratings_file, indent=4)
 
 @error_handler
-def key_maker(email, password, uid=None):
+def key_maker(email, password, uid=None) -> str:
     # Combine username and password to generate a key
     string = f"{email}{password}"
     TMH = Hash2603(string)
@@ -123,7 +118,7 @@ def key_maker(email, password, uid=None):
     return f"{key}XPZT{str_key}"
     
 @error_handler
-def key_check(key):
+def key_check(key) -> (tuple[True, str, dict] | tuple[False, None, dict]):
     # Load user data from JSON file
     with open('DB/users.json', 'r') as users_file:
         users_data = json.load(users_file)
@@ -139,7 +134,7 @@ def key_check(key):
     return False, None, {}
 
 @error_handler
-def authenticate(email, password):
+def authenticate(email, password) -> (tuple[True, str, dict] | tuple[False, None, dict]):
     # Load user data from JSON file
     with open('DB/users.json', 'r') as users_file:
         users_data = json.load(users_file)
@@ -154,7 +149,7 @@ def authenticate(email, password):
     return  False, None, {}
 
 @error_handler
-def okornot(data):
+def okornot(data) -> (tuple[True, str, dict] | tuple[False, None, dict]):
     tf, key, datas = False, None, {}
     try:
         email,password = data['email'], data['password']
@@ -217,52 +212,16 @@ def signup():
     return jsonify({'message': 'User registered successfully.', 'key': key}), 201
 
 
-
-
-# @app.route('/login', methods=['POST'])
-# @error_handler
-# def login():
-#     data = request.json
-#     # Check credentials
-#     # Assuming simple authentication for demo
-#     # If authentication succeeds, return success message
-#     tf, key, data = okornot(data=data)
-#     if tf:
-#         if key_check(key=key):
-#             return jsonify({'message': 'Login successful','key':key}), 200
-#     else:
-#         return jsonify({'message': 'Invalid credentials'}), 401
-
 @app.route('/login', methods=['POST'])
 @error_handler
 def login():
+    # Check credentials, Assuming simple authentication, If authentication succeeds, return success message
     data = request.json
-    # Check credentials
-    # Assuming simple authentication for demo
-    # If authentication succeeds, return success message
     tf, key, user_data = okornot(data=data)
     if tf:
         return jsonify({'message': 'Login successful', 'key': key, 'user_data': user_data}), 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
-
-
-# @app.route('/add_movie', methods=['POST'])
-# @error_handler
-# def add_movie():
-#     data = request.json
-#     tf, key, datas = okornot(data=data)
-#     if tf:
-#         try:
-#             write_DB("M", data)
-#             return jsonify({'message': 'Wah, movie added in the DB'}), 201
-#         except Exception as e:
-#             error = str(e)
-#             return jsonify({'message': f'key was ok but DB got this error {error}'}), 400
-#     else:
-#         print(tf, key, datas)
-#         return jsonify({'message': 'key was not ok, Unauthorized'}), 401
-
 
 
 @app.route('/add_movie', methods=['POST'])
@@ -280,11 +239,6 @@ def add_movie():
     else:
         print(tf, key, user_data)
         return jsonify({'message': 'Unauthorized access'}), 401
-
-
-
-
-
 
 
 
