@@ -98,6 +98,67 @@ The following routes are available in the API:
 
 For more details on each endpoint and their usage, refer to the help message provided at the root endpoint (`/`).
 
+
+
+---
+
+**Incomplete Feature: GitHub JSON Database Handler**
+
+To enhance the functionality of your project, consider adding a feature to interact with JSON files stored in a GitHub repository. The GitHubDBHandler class provided below allows you to load and write JSON files directly from a GitHub repository.
+
+```python
+import json
+import requests
+
+class GitHubDBHandler:
+    def __init__(self, repo_owner, repo_name, branch='main'):
+        self.repo_owner = repo_owner
+        self.repo_name = repo_name
+        self.branch = branch
+        self.base_url = f'https://raw.githubusercontent.com/{repo_owner}/{repo_name}/{branch}/'
+
+    def load_file(self, file_path):
+        try:
+            url = self.base_url + file_path
+            response = requests.get(url)
+            if response.status_code == 200:
+                return json.loads(response.text)
+            else:
+                print(f"Failed to load file: {file_path}. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error loading file: {file_path}. {str(e)}")
+
+    def write_file(self, file_path, data):
+        try:
+            url = self.base_url + file_path
+            response = requests.put(url, json=data)
+            if response.status_code == 200:
+                print(f"File {file_path} updated successfully.")
+            else:
+                print(f"Failed to update file: {file_path}. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error updating file: {file_path}. {str(e)}")
+```
+
+Usage example:
+
+```python
+# Initialize the GitHubDBHandler with your GitHub repository details
+db_handler = GitHubDBHandler(repo_owner='owner_username', repo_name='repository_name')
+
+# Load JSON file from the repository
+data = db_handler.load_file('path/to/file.json')
+
+# Manipulate the data as needed
+
+# Write the updated data back to the repository
+db_handler.write_file('path/to/file.json', data)
+```
+
+Replace `'owner_username'`, `'repository_name'`, and `'path/to/file.json'` with your GitHub repository details and the path to the JSON file you want to interact with.
+
+This feature adds the capability to read and write JSON files stored in a GitHub repository directly from your Python code. Keep in mind to handle authentication if your repository is private and requires authentication to access its contents.
+
 ---
 
 Feel free to explore the [Flask-Movie-API](https://github.com/0xAhmadYousuf/Flask-Movie-API) repository for further insights into a Flask-based implementation of a similar Movie API! If you have any questions or need assistance, don't hesitate to ask.
